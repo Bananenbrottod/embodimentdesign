@@ -12,9 +12,9 @@ const router = createRouter({
     {
       path: "/nina",
       name: "nina",
-      component: () => import("@/views/Nina.vue")
+      component: () => import("@/views/NinaP.vue")
     }
   ]
 })
 
-export default router
+export default router;

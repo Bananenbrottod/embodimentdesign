@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <main>
-    <SigmaGraph></SigmaGraph>
-  </main>
+  
+  <SigmaGraph></SigmaGraph>
+  
 </template>
 <script setup lang="ts">
 import SigmaGraph from "@/components/SigmaGraph.vue";
