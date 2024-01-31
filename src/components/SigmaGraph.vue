@@ -1,6 +1,16 @@
 <!-- Graph.vue -->
 <template>
     <div ref="sigma" class="sigma-container"></div>
+    <v-dialog v-model="nodeSelected">
+        <v-card>
+            <v-card-title>
+                {{ selectedNode!.label }}
+            </v-card-title>
+            <v-card-text>
+                {{ selectedNode!.attributes.Description }}
+            </v-card-text>
+        </v-card>
+    </v-dialog>
 </template>
   
 <script setup lang="ts">
@@ -8,11 +18,15 @@ import Graph from 'graphology';
 import Sigma from 'sigma';
 import { onMounted, ref } from 'vue';
 import data from "@/data/gephi.json";
+import { VDialog } from 'vuetify/components';
 
 const sigma = ref<HTMLElement | null>(null);
 
 const edges = data.edges;
 const nodes = data.nodes;
+
+const nodeSelected = ref<boolean>(false);
+const selectedNode = ref<Object | undefined>(undefined);
 
 onMounted(() => {
     initializeGraph();
@@ -33,21 +47,15 @@ function initializeGraph() {
     console.log(maxSize);
     edges.forEach((edge) => graph.addEdge(edge.source, edge.target));
 
-    // == === 
-    // 0 == false -> TRUE
-    // 0 === false -> FALSE
-    // if (0) -> if (false)
-    // number = Zahl -> Integer
-    // boolean = true / false
-    // string = Text "asosdgkjjfhdfhdlh"
-    // float = zahl mit komma 0.000
-
-    // 12 !== 6
-    // 12 === 12
-
     if (sigma.value !== null) {
         const sigmaInstance = new Sigma(graph, sigma.value);
         sigmaInstance.refresh();
+
+        sigmaInstance.on("clickNode", (event) => {
+            const node = nodes.find((node) => node.id === event.node);
+            nodeSelected.value = true;
+            selectedNode.value = node;
+        });
     }
 }
 
