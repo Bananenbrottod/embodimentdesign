@@ -19,21 +19,36 @@ import Sigma from 'sigma';
 import { onMounted, ref } from 'vue';
 import data from "@/data/gephi.json";
 import { VDialog } from 'vuetify/components';
+import type { NodeDisplayData } from 'sigma/types';
+
+interface Node {
+    id: string;
+    label: string;
+    size: number;
+    x: number;
+    y: number;
+    attributes: {
+        Description: string;
+    };
+}
 
 const sigma = ref<HTMLElement | null>(null);
+const graph = ref<Graph>(new Graph());
+const sigmaRenderer = ref<Sigma|undefined>();
 
 const edges = data.edges;
-const nodes = data.nodes;
+const nodes: Node[] = data.nodes;
 
 const nodeSelected = ref<boolean>(false);
-const selectedNode = ref<Object | undefined>(undefined);
+const selectedNode = ref<Node | undefined>(undefined);
+const selectedNodeNeighbors = ref<string[] | undefined>(undefined);
 
 onMounted(() => {
-    initializeGraph();
+    initializeGraph(graph.value);
+    initializeSigma(graph.value);
 });
 
-function initializeGraph() {
-    const graph = new Graph();
+function initializeGraph(graph: Graph) {
     let maxSize = 0;
 
     nodes.forEach((node) => {
@@ -46,17 +61,58 @@ function initializeGraph() {
     });
     console.log(maxSize);
     edges.forEach((edge) => graph.addEdge(edge.source, edge.target));
+}
 
+function initializeSigma(graph: Graph) {
     if (sigma.value !== null) {
-        const sigmaInstance = new Sigma(graph, sigma.value);
-        sigmaInstance.refresh();
-
-        sigmaInstance.on("clickNode", (event) => {
+        const renderer = new Sigma(graph, sigma.value);
+        
+        renderer.on("clickNode", (event) => {
             const node = nodes.find((node) => node.id === event.node);
-            nodeSelected.value = true;
-            selectedNode.value = node;
+            selectNode(node);
         });
+        
+        renderer.on("clickStage", (event) => {
+            selectNode(undefined);
+        });
+        
+        renderer.setSetting("nodeReducer", nodeReducer);
+        renderer.setSetting("edgeReducer", edgeReducer);
+
+        sigmaRenderer.value = renderer;
     }
+}
+
+function selectNode(node: Node | undefined) {
+    selectedNode.value = node;
+    nodeSelected.value = !!node;
+    selectedNodeNeighbors.value = node ? graph.value.neighbors(node.id) : [];
+    sigmaRenderer.value?.refresh();
+}
+
+function nodeReducer(node: string, data: any) {
+    const res: Partial<NodeDisplayData> = { ...data };
+                
+    if (nodeSelected.value && !selectedNodeNeighbors.value?.includes(node) && selectedNode.value?.id !== node) {
+        res.label = "";
+        res.color = "#f6f6f6";
+    }
+
+    if (selectedNode.value?.id === node) {
+        res.highlighted = true;
+    }
+
+    return res;
+}
+
+function edgeReducer(edge: string, data: any) {
+    const res: Partial<NodeDisplayData> = { ...data };
+
+    if (nodeSelected.value && !graph.value.hasExtremity(edge, selectedNode.value?.id)) {
+        res.hidden = true;
+    }
+
+    return res;
 }
 
 </script>
