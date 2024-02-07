@@ -62,6 +62,14 @@ npm install
 npm run dev
 ```
 
+### Build application and push to gh-pages
+
+Execute `deploy` script in package.json:
+
+````sh
+npm run deploy
+````
+
 ### Type-Check, Compile and Minify for Production
 
 ```sh
