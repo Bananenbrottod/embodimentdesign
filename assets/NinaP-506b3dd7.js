@@ -1,1 +1,0 @@
-import{d as s,c as a,a as o,F as t,r as c,o as r,b as l,t as i}from"./index-711d5072.js";const m=s({__name:"NinaP",setup(d){const n=["Peter","Klaus","Sandra"];return(p,u)=>(r(),a(t,null,[o(" Hallo Nina :) "),(r(),a(t,null,c(n,e=>l("div",{key:e},i(e),1)),64))],64))}});export{m as default};
