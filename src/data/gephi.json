@@ -305,7 +305,7 @@
         "Number of triangles": "0",
         "Grad": "1"
       },
-      "color": "rgb(0,0,0)",
+      "color": "rgb(112,112,112)",
       "size": 10.0
     },
     {
@@ -529,7 +529,7 @@
       "size": 15.454545974731445
     },
     {
-      "label": "C\u0026C²-A Model",
+      "label": "C\u0026C²-Model",
       "x": -677.4134521484375,
       "y": -880.2553100585938,
       "id": "24",
@@ -789,7 +789,7 @@
         "Number of triangles": "0",
         "Grad": "4"
       },
-      "color": "rgb(0,0,0)",
+      "color": "rgb(112,112,112)",
       "size": 10.0
     },
     {
