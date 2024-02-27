@@ -32,12 +32,14 @@ Please make sure you have installed all the software mentioned below:
 
 ## Start the Project on local Machine
 
-1. [Open the VSCode integrated terminal](https://code.visualstudio.com/docs/terminal/basics) in the root folder of the project
-2. Run `npm install`
+1. Open `VSCode` and open the folder where the project was cloned to
+2. [Open the VSCode integrated terminal](https://code.visualstudio.com/docs/terminal/basics)
+3. Run `npm install`
    - [Error: npm command not found](https://phoenixnap.com/kb/npm-command-not-found)
-3. Run `npm run dev`
+   - Error: no such file `package.json` -> check if you are in the correct folder with the terminal by running `pwd` - you have to be in the root folder of the project
+4. Run `npm run dev`
 
-This will start the application in a development setting and provide a link in the termin that can be opened with `CTRL + CLICK`. Now you can test the application, make changes and they will be reflected in the given browser page.
+This will start the application in a development setting and provide a link in the terminal that can be opened with `CTRL + CLICK`. Now you can test the application, make changes and they will be reflected in the given browser page.
 
 ## Updating the Data (gephi.json)
 
@@ -45,7 +47,7 @@ This will start the application in a development setting and provide a link in t
 2. File -> Export -> SigmaJS template
 3. Fill in all required fields see [tutorial](https://blog.miz.space/tutorial/2020/01/05/gephi-tutorial-sigma-js-plugin-publishing-interactive-graph-online/)
 
-When the export is finished a folder containing a `data.json` should be generated, this file shall be renamed to `gephi.json` and 
+When the export is finished a folder containing a `data.json` should be generated, this file shall be renamed to `gephi.json` and can then be used to replace the old [src/data/gephi.json](https://github.com/Bananenbrottod/embodimentdesign/blob/main/src/data/gephi.json).
 
 ## Build application and push to gh-pages
 
